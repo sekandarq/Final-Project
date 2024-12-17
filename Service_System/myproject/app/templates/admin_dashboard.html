@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<h2>All Images</h2>
+<div class="row">
+{% for img in images %}
+    <div class="col-md-3">
+        <div class="card">
+            <img class="card-img-top" src="{{ img.image.url }}" alt="{{ img.title }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ img.title }}</h5>
+                <p class="card-text">{{ img.text }}</p>
+                <a href="{% url 'edit_image_page' img.id %}" class="btn btn-warning">Edit</a>
+                <form method="post" action="/api/images/{{img.id}}/delete/" style="display:inline;">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Edit Image{% endblock %}
+{% block content %}
+<h2>Edit Image</h2>
+<form id="editForm" method="post" enctype="multipart/form-data" action="/api/images/{{image.id}}/update/">
+    <input type="text" name="title" value="{{ image.title }}" class="form-control" />
+    <textarea name="text" class="form-control">{{ image.text }}</textarea>
+    <input type="text" name="tags" value="{{ image.tags }}" class="form-control" />
+    <input type="file" name="image" class="form-control" />
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+{% endblock %}

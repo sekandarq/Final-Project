@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Upload Image{% endblock %}
+{% block content %}
+<h2>Upload New Image</h2>
+<form id="uploadForm" method="post" enctype="multipart/form-data" action="/api/images/upload/">
+    <input type="text" name="title" placeholder="Title" class="form-control" />
+    <textarea name="text" placeholder="Description" class="form-control"></textarea>
+    <input type="text" name="tags" placeholder="Tags" class="form-control" />
+    <input type="file" name="image" class="form-control" />
+    <button type="submit" class="btn btn-primary">Upload</button>
+</form>
+<script>
+document.getElementById('uploadForm').addEventListener('submit', function(e) {
+    let title = this.querySelector('[name="title"]').value.trim();
+    let file = this.querySelector('[name="image"]').files[0];
+    if(!title || !file) {
+        e.preventDefault();
+        alert("Title and image are required");
+    }
+});
+</script>
+{% endblock %}

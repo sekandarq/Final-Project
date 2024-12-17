@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<h2>Login</h2>
+<form id="loginForm">
+    <input type="text" id="username" placeholder="Username" class="form-control" required />
+    <input type="password" id="password" placeholder="Password" class="form-control" required />
+    <button type="submit" class="btn btn-primary mt-2">Login</button>
+</form>
+
+{% if messages %}
+<div class="alert alert-success">
+    {% for message in messages %}
+        {{ message }}
+    {% endfor %}
+</div>
+{% endif %}
+
+
+<script>
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    e.preventDefault(); // Prevent the default form submission
+
+    // Get input values
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+
+    // Validate inputs
+    if (!username || !password) {
+        alert("Please fill in all fields.");
+        return;
+    }
+
+    // Send login request to /api/token/
+    const response = await fetch("/api/token/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: username, password: password }),
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        console.log("Login successful:", data);
+
+        // Save tokens in localStorage (or sessionStorage)
+        localStorage.setItem("access", data.access);
+        localStorage.setItem("refresh", data.refresh);
+
+        // Redirect to user_dashboard page
+        window.location.href = "/user/dashboard/";
+    } else {
+        alert("Login failed. Please check your credentials.");
+    }
+});
+</script>
+{% endblock %}
